@@ -1,6 +1,4 @@
-# =========================================
 # STREAMLIT SENTIMENT ANALYSIS APP
-# =========================================
 
 import streamlit as st
 import joblib
@@ -8,20 +6,14 @@ import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-
-# Download once (safe for Streamlit)
 nltk.download("stopwords")
 nltk.download("wordnet")
 
-# =========================================
 # LOAD MODEL & VECTORIZER
-# =========================================
 model = joblib.load("sentiment_model.pkl")
 vectorizer = joblib.load("tfidf_vectorizer.pkl")
 
-# =========================================
-# TEXT PREPROCESSING (SAME AS TRAINING)
-# =========================================
+# TEXT PREPROCESSING
 stop_words = set(stopwords.words("english")) - {"not", "no", "never"}
 lemmatizer = WordNetLemmatizer()
 
@@ -33,9 +25,7 @@ def preprocess(text):
     words = [lemmatizer.lemmatize(w) for w in words if w not in stop_words]
     return " ".join(words)
 
-# =========================================
 # STREAMLIT UI
-# =========================================
 st.set_page_config(page_title="Flipkart Sentiment Analysis", layout="centered")
 
 st.title("Flipkart Review Sentiment Analysis")
@@ -59,10 +49,7 @@ if st.button("Predict Sentiment"):
             st.success("✅ Positive Review")
         else:
             st.error("❌ Negative Review")
-
-# =========================================
 # FOOTER
-# =========================================
 st.markdown("---")
 st.markdown("**Model:** TF-IDF + Logistic Regression")
 st.markdown("**Metric Used:** F1-score")
